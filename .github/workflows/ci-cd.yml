@@ -1,0 +1,25 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - '*'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout Repository
+      uses: actions/checkout@v2
+
+    - name: Set up Docker
+      uses: actions/setup-docker@v2
+
+    - name: Build and Push Docker Image
+      env:
+        IMAGE_NAME: ${{ secrets.REGISTRY_USERNAME }}/CodewayCaseStudy:${{ github.ref }}
+      run: |
+        docker build -t $IMAGE_NAME .
+        docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
+        docker push $IMAGE_NAME

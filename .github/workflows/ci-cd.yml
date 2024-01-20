@@ -18,7 +18,7 @@ jobs:
 
     - name: Build and Push Docker Image
       env:
-        IMAGE_NAME: ${{ secrets.REGISTRY_USERNAME }}/c_c_s:${{ github.ref }}
+        IMAGE_NAME: ${{ secrets.REGISTRY_USERNAME }}/c_c_s:${{ github.ref_name }}
       run: |
         docker build -t $IMAGE_NAME .
         docker login -u ${{ secrets.REGISTRY_USERNAME }} -p ${{ secrets.REGISTRY_PASSWORD }}
